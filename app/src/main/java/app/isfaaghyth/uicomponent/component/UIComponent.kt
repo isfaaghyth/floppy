@@ -5,6 +5,6 @@ import androidx.lifecycle.LifecycleObserver
 import kotlinx.coroutines.flow.Flow
 
 interface UIComponent<T> : LifecycleObserver {
-    @IdRes fun getContainerId(): Int
+    @IdRes fun containerId(): Int
     fun interactionEvents(): Flow<T>
 }

@@ -1,4 +1,4 @@
-package app.isfaaghyth.uicomponent.ui
+package app.isfaaghyth.uicomponent.ui.person
 
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
+import app.isfaaghyth.uicomponent.dataview.Person
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
 import kotlinx.coroutines.CoroutineScope
@@ -34,24 +35,24 @@ class PersonComponent(
                 .collect {
                     when (it) {
                         ScreenStateEvent.Init -> uiView.hide()
-                        is ScreenStateEvent.SetButtonTitle -> {
-                            setButtonTitle(it.title)
+                        is ScreenStateEvent.SetPersonInfo -> {
+                            setPersonInfo(it.person)
                         }
                     }
                 }
         }
     }
 
-    private fun setButtonTitle(title: String) {
-        uiView.setButtonTitle(title)
+    private fun setPersonInfo(person: Person) {
+        uiView.setPersonInfo(person)
         uiView.show()
     }
 
-    override fun onTestClicked() {
+    override fun onPersonInfoClicked(person: Person) {
         launch {
             bus.emit(
                 PersonInteractionEvent::class.java,
-                PersonInteractionEvent.TestClicked
+                PersonInteractionEvent.PersonInfoClicked(person)
             )
         }
     }
@@ -60,7 +61,7 @@ class PersonComponent(
         return bus.getSafeManagedFlow(PersonInteractionEvent::class.java)
     }
 
-    override fun getContainerId(): Int {
+    override fun containerId(): Int {
         return uiView.containerId
     }
 
@@ -81,7 +82,8 @@ class PersonComponent(
                 container,
                 EventBusFactory.get(lifecycleOwner),
                 coroutineScope,
-                dispatcher)
+                dispatcher
+            )
                 .also(lifecycleOwner.lifecycle::addObserver)
 
             coroutineScope.launch {

@@ -1,11 +1,14 @@
-package app.isfaaghyth.uicomponent.ui
+package app.isfaaghyth.uicomponent.ui.person
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.UIView
+import app.isfaaghyth.uicomponent.dataview.Person
 import app.isfaaghyth.uicomponent.util.hide
 import app.isfaaghyth.uicomponent.util.show
 
@@ -21,12 +24,16 @@ class PersonUIView(
 
     override val containerId: Int = view.id
 
-    private val btnTest: Button = view.findViewById(R.id.btnTest)
+    private val imgAvatar: ImageView = view.findViewById(R.id.imgAvatar)
+    private val txtName: TextView = view.findViewById(R.id.txtName)
+    private val txtAge: TextView = view.findViewById(R.id.txtAge)
 
-    fun setButtonTitle(title: String) {
-        btnTest.text = title
-        btnTest.setOnClickListener {
-            listener.onTestClicked()
+    fun setPersonInfo(person: Person) {
+        imgAvatar.setBackgroundResource(person.avatar)
+        txtName.text = person.name
+        txtAge.text = person.ageFormat()
+        view.setOnClickListener {
+            listener.onPersonInfoClicked(person)
         }
     }
 
@@ -43,7 +50,7 @@ class PersonUIView(
     }
 
     interface Listener {
-        fun onTestClicked()
+        fun onPersonInfoClicked(person: Person)
     }
 
 }

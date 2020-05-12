@@ -8,11 +8,15 @@ import androidx.fragment.app.Fragment
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
+import app.isfaaghyth.uicomponent.dataview.Person
+import app.isfaaghyth.uicomponent.dataview.PersonDetail
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
-import app.isfaaghyth.uicomponent.ui.PersonComponent
-import app.isfaaghyth.uicomponent.ui.PersonInteractionEvent
+import app.isfaaghyth.uicomponent.ui.person.PersonComponent
+import app.isfaaghyth.uicomponent.ui.person.PersonInteractionEvent
+import app.isfaaghyth.uicomponent.uimodel.PersonUIModel.personDetail
+import app.isfaaghyth.uicomponent.uimodel.PersonUIModel.samplePerson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -40,7 +44,7 @@ class SampleFragment: Fragment(), CoroutineScope {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setButtonTitle("ISFA GANTENG")
+        setPersonInfo(samplePerson())
     }
 
     private fun initComponents(container: ViewGroup) {
@@ -48,12 +52,22 @@ class SampleFragment: Fragment(), CoroutineScope {
         sendInitState()
     }
 
-    private fun setButtonTitle(title: String) {
+    private fun setPersonInfo(person: Person) {
         launch {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetButtonTitle(title)
+                    ScreenStateEvent.SetPersonInfo(person)
+                )
+        }
+    }
+
+    private fun setPersonDetail(person: Person) {
+        launch {
+            EventBusFactory.get(viewLifecycleOwner)
+                .emit(
+                    ScreenStateEvent::class.java,
+                    ScreenStateEvent.SetPersonDetail(personDetail(person))
                 )
         }
     }
@@ -68,8 +82,10 @@ class SampleFragment: Fragment(), CoroutineScope {
             lifecycleOwner = viewLifecycleOwner,
             onAction = {
                 when (it) {
-                    is PersonInteractionEvent.TestClicked -> {
-                        setButtonTitle("CIEE, BERUBAH!")
+                    is PersonInteractionEvent.PersonInfoClicked -> {
+                        println("Hi, I'm ${it.person.name}")
+                        //TODO
+                        //setPersonDetail(it.person)
                     }
                 }
             }
