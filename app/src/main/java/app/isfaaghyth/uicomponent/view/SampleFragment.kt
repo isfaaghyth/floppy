@@ -9,10 +9,10 @@ import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
 import app.isfaaghyth.uicomponent.dataview.Person
-import app.isfaaghyth.uicomponent.dataview.PersonDetail
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
+import app.isfaaghyth.uicomponent.ui.detail.DetailComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonInteractionEvent
 import app.isfaaghyth.uicomponent.uimodel.PersonUIModel.personDetail
@@ -24,13 +24,15 @@ import kotlin.coroutines.CoroutineContext
 
 class SampleFragment: Fragment(), CoroutineScope {
 
-    private lateinit var sampleComponent: UIComponent<*>
     private var dispatchers: DispatcherProvider = AppDispatcherProvider()
 
     private val job = SupervisorJob()
 
     override val coroutineContext: CoroutineContext
         get() = job + dispatchers.ui()
+
+    private lateinit var personComponent: UIComponent<*>
+    private lateinit var personDetailComponent: UIComponent<*>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +50,9 @@ class SampleFragment: Fragment(), CoroutineScope {
     }
 
     private fun initComponents(container: ViewGroup) {
-        sampleComponent = initPersonComponent(container)
+        personComponent = initPersonComponent(container)
+        personDetailComponent = initDetailComponent(container)
+
         sendInitState()
     }
 
@@ -83,12 +87,21 @@ class SampleFragment: Fragment(), CoroutineScope {
             onAction = {
                 when (it) {
                     is PersonInteractionEvent.PersonInfoClicked -> {
-                        println("Hi, I'm ${it.person.name}")
-                        //TODO
-                        //setPersonDetail(it.person)
+                        setPersonDetail(it.person)
                     }
                 }
             }
+        )
+    }
+
+    private fun initDetailComponent(
+        container: ViewGroup
+    ): UIComponent<Unit> {
+        return DetailComponent.init(
+            container = container,
+            coroutineScope = this,
+            dispatcher = dispatchers,
+            lifecycleOwner = viewLifecycleOwner
         )
     }
 

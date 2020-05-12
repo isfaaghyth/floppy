@@ -22,11 +22,11 @@ class PersonUIView(
         .inflate(R.layout.view_person, container, true)
         .findViewById(R.id.containerPerson)
 
-    override val containerId: Int = view.id
-
     private val imgAvatar: ImageView = view.findViewById(R.id.imgAvatar)
     private val txtName: TextView = view.findViewById(R.id.txtName)
     private val txtAge: TextView = view.findViewById(R.id.txtAge)
+
+    override val containerId: Int = view.id
 
     fun setPersonInfo(person: Person) {
         imgAvatar.setBackgroundResource(person.avatar)
