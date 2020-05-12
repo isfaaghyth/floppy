@@ -1,0 +1,3 @@
+package app.isfaaghyth.uicomponent.component
+
+interface ComponentEvent
