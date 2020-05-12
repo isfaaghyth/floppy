@@ -5,18 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
 import app.isfaaghyth.uicomponent.dataview.Person
+import app.isfaaghyth.uicomponent.dataview.PersonDetail
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
 import app.isfaaghyth.uicomponent.ui.detail.DetailComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonInteractionEvent
-import app.isfaaghyth.uicomponent.uimodel.PersonUIModel.personDetail
-import app.isfaaghyth.uicomponent.uimodel.PersonUIModel.samplePerson
+import app.isfaaghyth.uicomponent.view.viewmodel.SampleViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -34,6 +36,16 @@ class SampleFragment: Fragment(), CoroutineScope {
     private lateinit var personComponent: UIComponent<*>
     private lateinit var personDetailComponent: UIComponent<*>
 
+    private lateinit var viewModel: SampleViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProviders
+            .of(this)
+            .get(SampleViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,14 +58,38 @@ class SampleFragment: Fragment(), CoroutineScope {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setPersonInfo(samplePerson())
+        viewModel.onShowPerson()
+
+        observerPersonInfo()
+        observerPersonDetailInfo()
+    }
+
+    private fun initialState() {
+        launch(dispatchers.immediate()) {
+            EventBusFactory.get(viewLifecycleOwner).emit(
+                ScreenStateEvent::class.java,
+                ScreenStateEvent.Init
+            )
+        }
     }
 
     private fun initComponents(container: ViewGroup) {
         personComponent = initPersonComponent(container)
         personDetailComponent = initDetailComponent(container)
 
-        sendInitState()
+        initialState()
+    }
+
+    private fun observerPersonInfo() {
+        viewModel.person.observe(viewLifecycleOwner, Observer {
+            setPersonInfo(it)
+        })
+    }
+
+    private fun observerPersonDetailInfo() {
+        viewModel.personDetail.observe(viewLifecycleOwner, Observer {
+            setPersonDetail(it)
+        })
     }
 
     private fun setPersonInfo(person: Person) {
@@ -66,12 +102,12 @@ class SampleFragment: Fragment(), CoroutineScope {
         }
     }
 
-    private fun setPersonDetail(person: Person) {
+    private fun setPersonDetail(personDetail: PersonDetail) {
         launch {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetPersonDetail(personDetail(person))
+                    ScreenStateEvent.SetPersonDetail(personDetail)
                 )
         }
     }
@@ -87,7 +123,7 @@ class SampleFragment: Fragment(), CoroutineScope {
             onAction = {
                 when (it) {
                     is PersonInteractionEvent.PersonInfoClicked -> {
-                        setPersonDetail(it.person)
+                        viewModel.onShowPersonDetail(it.person)
                     }
                 }
             }
@@ -103,15 +139,6 @@ class SampleFragment: Fragment(), CoroutineScope {
             dispatcher = dispatchers,
             lifecycleOwner = viewLifecycleOwner
         )
-    }
-
-    private fun sendInitState() {
-        launch(dispatchers.immediate()) {
-            EventBusFactory.get(viewLifecycleOwner).emit(
-                ScreenStateEvent::class.java,
-                ScreenStateEvent.Init
-            )
-        }
     }
 
     override fun onDestroyView() {
