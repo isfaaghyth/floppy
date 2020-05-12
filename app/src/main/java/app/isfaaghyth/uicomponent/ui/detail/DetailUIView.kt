@@ -29,6 +29,10 @@ class DetailUIView(
         txtPhoneNumber.text = personDetail.phone
     }
 
+    fun stateVisibility(): Boolean {
+        return view.visibility == View.VISIBLE
+    }
+
     override fun show() {
         view.show()
     }

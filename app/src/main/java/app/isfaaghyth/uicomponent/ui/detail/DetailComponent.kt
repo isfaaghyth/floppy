@@ -43,8 +43,12 @@ class DetailComponent(
     }
 
     private fun setPersonDetail(personDetail: PersonDetail) {
-        uiView.setPersonDetail(personDetail)
-        uiView.show()
+        if (!uiView.stateVisibility()) {
+            uiView.setPersonDetail(personDetail)
+            uiView.show()
+        } else {
+            uiView.hide()
+        }
     }
 
     override fun containerId(): Int {
@@ -73,6 +77,7 @@ class DetailComponent(
                 pinnedComponent.interactionEvents()
                     .collect {}
             }
+
             return pinnedComponent
         }
     }

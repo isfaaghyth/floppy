@@ -83,13 +83,13 @@ class PersonComponent(
                 EventBusFactory.get(lifecycleOwner),
                 coroutineScope,
                 dispatcher
-            )
-                .also(lifecycleOwner.lifecycle::addObserver)
+            ).also(lifecycleOwner.lifecycle::addObserver)
 
             coroutineScope.launch {
                 pinnedComponent.interactionEvents()
                     .collect { onAction(it) }
             }
+
             return pinnedComponent
         }
     }
