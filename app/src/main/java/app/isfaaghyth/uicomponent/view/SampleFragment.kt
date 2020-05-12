@@ -62,24 +62,19 @@ class SampleFragment: Fragment(), CoroutineScope {
     private fun initSampleComponent(
         container: ViewGroup
     ): UIComponent<SampleInteractionEvent> {
-        val pinnedComponent = SampleComponent(
-            container,
-            EventBusFactory.get(viewLifecycleOwner),
-            this,
-            dispatchers)
-            .also(viewLifecycleOwner.lifecycle::addObserver)
-
-        launch {
-            pinnedComponent.interactionEvents()
-                .collect {
-                    when (it) {
-                        is SampleInteractionEvent.TestClicked -> {
-                            setButtonTitle("CIEE, BERUBAH!")
-                        }
+        return SampleComponent.init(
+            container = container,
+            coroutineScope = this,
+            dispatcher = dispatchers,
+            lifecycleOwner = viewLifecycleOwner,
+            onAction = {
+                when (it) {
+                    is SampleInteractionEvent.TestClicked -> {
+                        setButtonTitle("CIEE, BERUBAH!")
                     }
                 }
-        }
-        return pinnedComponent
+            }
+        )
     }
 
     private fun sendInitState() {

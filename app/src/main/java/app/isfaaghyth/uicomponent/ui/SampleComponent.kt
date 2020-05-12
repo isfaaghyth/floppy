@@ -3,6 +3,7 @@ package app.isfaaghyth.uicomponent.ui
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
@@ -66,6 +67,29 @@ class SampleComponent(
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy() {
         uiView.onDestroy()
+    }
+
+    companion object {
+        fun init(
+            container: ViewGroup,
+            coroutineScope: CoroutineScope,
+            lifecycleOwner: LifecycleOwner,
+            dispatcher: DispatcherProvider,
+            onAction: (event: SampleInteractionEvent) -> Unit
+        ): UIComponent<SampleInteractionEvent> {
+            val pinnedComponent = SampleComponent(
+                container,
+                EventBusFactory.get(lifecycleOwner),
+                coroutineScope,
+                dispatcher)
+                .also(lifecycleOwner.lifecycle::addObserver)
+
+            coroutineScope.launch {
+                pinnedComponent.interactionEvents()
+                    .collect { onAction(it) }
+            }
+            return pinnedComponent
+        }
     }
 
 }
