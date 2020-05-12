@@ -43,12 +43,8 @@ class DetailComponent(
     }
 
     private fun setPersonDetail(personDetail: PersonDetail) {
-        if (!uiView.stateVisibility()) {
-            uiView.setPersonDetail(personDetail)
-            uiView.showWithHeight(800)
-        } else {
-            uiView.hide()
-        }
+        uiView.setPersonDetail(personDetail)
+        uiView.showWithHeight(800)
     }
 
     override fun containerId(): Int {

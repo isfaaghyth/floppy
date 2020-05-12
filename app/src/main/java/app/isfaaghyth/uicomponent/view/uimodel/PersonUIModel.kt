@@ -1,24 +1,21 @@
 package app.isfaaghyth.uicomponent.view.uimodel
 
-import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.dataview.Person
-import app.isfaaghyth.uicomponent.dataview.PersonDetail
 
-object PersonUIModel {
+data class PersonUIModel(
+    val name: String,
+    val age: String,
+    val avatar: Int
+) {
 
-    fun samplePerson(): Person {
-        return Person(
-            name = "Muh Isfhani Ghiath",
-            age = 22,
-            avatar = R.mipmap.ic_launcher
-        )
-    }
-
-    fun personDetail(person: Person): PersonDetail {
-        return PersonDetail(
-            hobby = "${person.name}'s hobby is football",
-            phone = "085123456789"
-        )
+    companion object {
+        fun mapToUIModel(person: Person): PersonUIModel {
+            return PersonUIModel(
+                name = person.name,
+                age = person.ageFormat(),
+                avatar = person.avatar
+            )
+        }
     }
 
 }

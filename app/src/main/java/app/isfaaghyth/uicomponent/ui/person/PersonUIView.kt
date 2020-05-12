@@ -3,14 +3,13 @@ package app.isfaaghyth.uicomponent.ui.person
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.UIView
-import app.isfaaghyth.uicomponent.dataview.Person
+import app.isfaaghyth.uicomponent.ui.person.adapter.PersonAdapter
 import app.isfaaghyth.uicomponent.util.hide
 import app.isfaaghyth.uicomponent.util.show
+import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
 
 class PersonUIView(
     viewGroup: ViewGroup,
@@ -22,19 +21,12 @@ class PersonUIView(
         .inflate(R.layout.view_person, container, true)
         .findViewById(R.id.containerPerson)
 
-    private val imgAvatar: ImageView = view.findViewById(R.id.imgAvatar)
-    private val txtName: TextView = view.findViewById(R.id.txtName)
-    private val txtAge: TextView = view.findViewById(R.id.txtAge)
+    private val lstPerson: RecyclerView = view.findViewById(R.id.lstPerson)
 
     override val containerId: Int = view.id
 
-    fun setPersonInfo(person: Person) {
-        imgAvatar.setBackgroundResource(person.avatar)
-        txtName.text = person.name
-        txtAge.text = person.ageFormat()
-        view.setOnClickListener {
-            listener.onPersonInfoClicked(person)
-        }
+    fun setPersonList(persons: List<PersonUIModel>) {
+        lstPerson.adapter = PersonAdapter(persons, listener)
     }
 
     override fun show() {
@@ -50,7 +42,7 @@ class PersonUIView(
     }
 
     interface Listener {
-        fun onPersonInfoClicked(person: Person)
+        fun onPersonInfoClicked(person: PersonUIModel)
     }
 
 }

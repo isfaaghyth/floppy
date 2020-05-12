@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
-import app.isfaaghyth.uicomponent.dataview.Person
 import app.isfaaghyth.uicomponent.dataview.PersonDetail
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
@@ -18,6 +17,7 @@ import app.isfaaghyth.uicomponent.state.ScreenStateEvent
 import app.isfaaghyth.uicomponent.ui.detail.DetailComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonComponent
 import app.isfaaghyth.uicomponent.ui.person.PersonInteractionEvent
+import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
 import app.isfaaghyth.uicomponent.view.viewmodel.SampleViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -92,12 +92,12 @@ class SampleFragment: Fragment(), CoroutineScope {
         })
     }
 
-    private fun setPersonInfo(person: Person) {
+    private fun setPersonInfo(persons: List<PersonUIModel>) {
         launch {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetPersonInfo(person)
+                    ScreenStateEvent.SetPersonInfo(persons)
                 )
         }
     }

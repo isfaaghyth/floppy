@@ -7,9 +7,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
-import app.isfaaghyth.uicomponent.dataview.Person
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
+import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -36,19 +36,19 @@ class PersonComponent(
                     when (it) {
                         ScreenStateEvent.Init -> uiView.hide()
                         is ScreenStateEvent.SetPersonInfo -> {
-                            setPersonInfo(it.person)
+                            setPersonInfo(it.persons)
                         }
                     }
                 }
         }
     }
 
-    private fun setPersonInfo(person: Person) {
-        uiView.setPersonInfo(person)
+    private fun setPersonInfo(persons: List<PersonUIModel>) {
+        uiView.setPersonList(persons)
         uiView.show()
     }
 
-    override fun onPersonInfoClicked(person: Person) {
+    override fun onPersonInfoClicked(person: PersonUIModel) {
         launch {
             bus.emit(
                 PersonInteractionEvent::class.java,
