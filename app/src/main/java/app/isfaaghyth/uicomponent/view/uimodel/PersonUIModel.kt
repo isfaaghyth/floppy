@@ -1,4 +1,4 @@
-package app.isfaaghyth.uicomponent.uimodel
+package app.isfaaghyth.uicomponent.view.uimodel
 
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.dataview.Person

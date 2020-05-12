@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import app.isfaaghyth.uicomponent.dataview.Person
 import app.isfaaghyth.uicomponent.dataview.PersonDetail
-import app.isfaaghyth.uicomponent.uimodel.PersonUIModel
+import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
 
 class SampleViewModel: ViewModel() {
 
