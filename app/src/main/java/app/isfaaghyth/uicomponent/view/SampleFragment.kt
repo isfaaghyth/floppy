@@ -11,11 +11,10 @@ import app.isfaaghyth.uicomponent.component.UIComponent
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
-import app.isfaaghyth.uicomponent.ui.SampleComponent
-import app.isfaaghyth.uicomponent.ui.SampleInteractionEvent
+import app.isfaaghyth.uicomponent.ui.PersonComponent
+import app.isfaaghyth.uicomponent.ui.PersonInteractionEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -45,7 +44,7 @@ class SampleFragment: Fragment(), CoroutineScope {
     }
 
     private fun initComponents(container: ViewGroup) {
-        sampleComponent = initSampleComponent(container)
+        sampleComponent = initPersonComponent(container)
         sendInitState()
     }
 
@@ -59,17 +58,17 @@ class SampleFragment: Fragment(), CoroutineScope {
         }
     }
 
-    private fun initSampleComponent(
+    private fun initPersonComponent(
         container: ViewGroup
-    ): UIComponent<SampleInteractionEvent> {
-        return SampleComponent.init(
+    ): UIComponent<PersonInteractionEvent> {
+        return PersonComponent.init(
             container = container,
             coroutineScope = this,
             dispatcher = dispatchers,
             lifecycleOwner = viewLifecycleOwner,
             onAction = {
                 when (it) {
-                    is SampleInteractionEvent.TestClicked -> {
+                    is PersonInteractionEvent.TestClicked -> {
                         setButtonTitle("CIEE, BERUBAH!")
                     }
                 }

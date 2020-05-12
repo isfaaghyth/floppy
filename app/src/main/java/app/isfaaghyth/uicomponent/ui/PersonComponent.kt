@@ -14,18 +14,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class SampleComponent(
+class PersonComponent(
     container: ViewGroup,
     private val bus: EventBusFactory,
     coroutineScope: CoroutineScope,
     dispatcher: DispatcherProvider
-): UIComponent<SampleInteractionEvent>, CoroutineScope by coroutineScope, SampleUIView.Listener {
+): UIComponent<PersonInteractionEvent>, CoroutineScope by coroutineScope, PersonUIView.Listener {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val uiView = initView(container)
 
-    private fun initView(container: ViewGroup): SampleUIView {
-        return SampleUIView(container, this)
+    private fun initView(container: ViewGroup): PersonUIView {
+        return PersonUIView(container, this)
     }
 
     init {
@@ -50,14 +50,14 @@ class SampleComponent(
     override fun onTestClicked() {
         launch {
             bus.emit(
-                SampleInteractionEvent::class.java,
-                SampleInteractionEvent.TestClicked
+                PersonInteractionEvent::class.java,
+                PersonInteractionEvent.TestClicked
             )
         }
     }
 
-    override fun interactionEvents(): Flow<SampleInteractionEvent> {
-        return bus.getSafeManagedFlow(SampleInteractionEvent::class.java)
+    override fun interactionEvents(): Flow<PersonInteractionEvent> {
+        return bus.getSafeManagedFlow(PersonInteractionEvent::class.java)
     }
 
     override fun getContainerId(): Int {
@@ -75,9 +75,9 @@ class SampleComponent(
             coroutineScope: CoroutineScope,
             lifecycleOwner: LifecycleOwner,
             dispatcher: DispatcherProvider,
-            onAction: (event: SampleInteractionEvent) -> Unit
-        ): UIComponent<SampleInteractionEvent> {
-            val pinnedComponent = SampleComponent(
+            onAction: (event: PersonInteractionEvent) -> Unit
+        ): UIComponent<PersonInteractionEvent> {
+            val pinnedComponent = PersonComponent(
                 container,
                 EventBusFactory.get(lifecycleOwner),
                 coroutineScope,

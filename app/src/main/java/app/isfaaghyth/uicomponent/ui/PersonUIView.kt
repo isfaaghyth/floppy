@@ -9,15 +9,15 @@ import app.isfaaghyth.uicomponent.component.UIView
 import app.isfaaghyth.uicomponent.util.hide
 import app.isfaaghyth.uicomponent.util.show
 
-class SampleUIView(
+class PersonUIView(
     viewGroup: ViewGroup,
     private val listener: Listener
 ): UIView(viewGroup) {
 
     private val view: View = LayoutInflater
         .from(container.context)
-        .inflate(R.layout.view_sample, container, true)
-        .findViewById(R.id.containerViewSample)
+        .inflate(R.layout.view_person, container, true)
+        .findViewById(R.id.containerPerson)
 
     override val containerId: Int = view.id
 
