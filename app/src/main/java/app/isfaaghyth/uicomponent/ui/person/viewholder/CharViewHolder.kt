@@ -8,39 +8,40 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import app.isfaaghyth.uicomponent.R
-import app.isfaaghyth.uicomponent.ui.person.PersonUIView
-import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
+import app.isfaaghyth.uicomponent.ui.person.CharUIView
+import app.isfaaghyth.uicomponent.view.uimodel.CharacterUIModel
+import coil.api.load
 
-class PersonViewHolder(
+class CharViewHolder(
     view: View,
-    private val listener: PersonUIView.Listener
+    private val listener: CharUIView.Listener
 ): RecyclerView.ViewHolder(view) {
 
     private val imgAvatar: ImageView = view.findViewById(R.id.imgAvatar)
     private val txtName: TextView = view.findViewById(R.id.txtName)
     private val txtAge: TextView = view.findViewById(R.id.txtAge)
 
-    fun bind(person: PersonUIModel) {
-        imgAvatar.setBackgroundResource(person.avatar)
-        txtName.text = person.name
-        txtAge.text = person.age
+    fun bind(character: CharacterUIModel) {
+        imgAvatar.load(character.avatar)
+        txtName.text = character.name
+        txtAge.text = character.age
 
         itemView.setOnClickListener {
-            listener.onPersonInfoClicked(person)
+            listener.onPersonInfoClicked(character)
         }
     }
 
     companion object {
-        @LayoutRes const val LAYOUT = R.layout.item_person
+        @LayoutRes const val LAYOUT = R.layout.item_character
 
         fun create(
             container: ViewGroup,
-            listener: PersonUIView.Listener
-        ): PersonViewHolder {
+            listener: CharUIView.Listener
+        ): CharViewHolder {
             val containerLayout = LayoutInflater
                 .from(container.context)
                 .inflate(LAYOUT, container, false)
-            return PersonViewHolder(containerLayout, listener)
+            return CharViewHolder(containerLayout, listener)
         }
     }
 

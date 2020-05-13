@@ -7,9 +7,7 @@ import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.UIView
-import app.isfaaghyth.uicomponent.dataview.PersonDetail
-import app.isfaaghyth.uicomponent.util.hide
-import app.isfaaghyth.uicomponent.util.show
+import app.isfaaghyth.uicomponent.view.uimodel.CharDetailUIModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class DetailUIView(
@@ -18,23 +16,18 @@ class DetailUIView(
 
     private val view: View = LayoutInflater
         .from(container.context)
-        .inflate(R.layout.view_person_detail, container, true)
-        .findViewById(R.id.containerPersonDetail)
-
-    private val txtHobby: TextView = view.findViewById(R.id.txtHobby)
-    private val txtPhoneNumber: TextView = view.findViewById(R.id.txtPhoneNumber)
+        .inflate(R.layout.view_char_detail, container, true)
+        .findViewById(R.id.containerCharDetail)
 
     override val containerId: Int = view.id
 
+    private val txtHeroName: TextView = view.findViewById(R.id.txtHeroName)
+    private val txtLocation: TextView = view.findViewById(R.id.txtLocation)
     private val bottomSheetBehavior = BottomSheetBehavior.from(view)
 
-    fun setPersonDetail(personDetail: PersonDetail) {
-        txtHobby.text = personDetail.hobby
-        txtPhoneNumber.text = personDetail.phone
-    }
-
-    fun stateVisibility(): Boolean {
-        return bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+    fun bind(detail: CharDetailUIModel) {
+        txtHeroName.text = detail.heroName
+        txtLocation.text = detail.location
     }
 
     override fun show() {
@@ -45,13 +38,12 @@ class DetailUIView(
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    internal fun showWithHeight(height: Int) {
+    internal fun showWithHeight(height: Int = 800) {
         if (view.height != height) {
             val layoutParams = view.layoutParams as CoordinatorLayout.LayoutParams
             layoutParams.height = height
             view.layoutParams = layoutParams
         }
-
         show()
     }
 

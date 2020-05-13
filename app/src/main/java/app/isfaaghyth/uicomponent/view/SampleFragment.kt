@@ -10,14 +10,14 @@ import androidx.lifecycle.ViewModelProviders
 import app.isfaaghyth.uicomponent.R
 import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
-import app.isfaaghyth.uicomponent.dataview.PersonDetail
 import app.isfaaghyth.uicomponent.dispatchers.AppDispatcherProvider
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
 import app.isfaaghyth.uicomponent.ui.detail.DetailComponent
-import app.isfaaghyth.uicomponent.ui.person.PersonComponent
-import app.isfaaghyth.uicomponent.ui.person.PersonInteractionEvent
-import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
+import app.isfaaghyth.uicomponent.ui.person.CharListComponent
+import app.isfaaghyth.uicomponent.ui.person.CharInteractionEvent
+import app.isfaaghyth.uicomponent.view.uimodel.CharDetailUIModel
+import app.isfaaghyth.uicomponent.view.uimodel.CharacterUIModel
 import app.isfaaghyth.uicomponent.view.viewmodel.SampleViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -81,49 +81,49 @@ class SampleFragment: Fragment(), CoroutineScope {
     }
 
     private fun observerPersonInfo() {
-        viewModel.person.observe(viewLifecycleOwner, Observer {
+        viewModel.character.observe(viewLifecycleOwner, Observer {
             setPersonInfo(it)
         })
     }
 
     private fun observerPersonDetailInfo() {
         viewModel.personDetail.observe(viewLifecycleOwner, Observer {
-            setPersonDetail(it)
+            setCharacterDetail(it)
         })
     }
 
-    private fun setPersonInfo(persons: List<PersonUIModel>) {
+    private fun setPersonInfo(characters: List<CharacterUIModel>) {
         launch {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetPersonInfo(persons)
+                    ScreenStateEvent.SetPersonInfo(characters)
                 )
         }
     }
 
-    private fun setPersonDetail(personDetail: PersonDetail) {
+    private fun setCharacterDetail(detail: CharDetailUIModel) {
         launch {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetPersonDetail(personDetail)
+                    ScreenStateEvent.SetPersonDetail(detail)
                 )
         }
     }
 
     private fun initPersonComponent(
         container: ViewGroup
-    ): UIComponent<PersonInteractionEvent> {
-        return PersonComponent.init(
+    ): UIComponent<CharInteractionEvent> {
+        return CharListComponent.init(
             container = container,
             coroutineScope = this,
             dispatcher = dispatchers,
             lifecycleOwner = viewLifecycleOwner,
             onAction = {
                 when (it) {
-                    is PersonInteractionEvent.PersonInfoClicked -> {
-                        viewModel.onShowPersonDetail(it.person)
+                    is CharInteractionEvent.CharInfoClicked -> {
+                        viewModel.onShowPersonDetail(it.character)
                     }
                 }
             }

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/containerPersonDetail"
+    android:id="@+id/containerCharDetail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -16,7 +16,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/txtHobby"
+        android:id="@+id/txtHeroName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -25,12 +25,12 @@
         tools:text="@tools:sample/lorem" />
 
     <TextView
-        android:id="@+id/txtPhoneNumber"
+        android:id="@+id/txtLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtHobby"
+        app:layout_constraintTop_toBottomOf="@+id/txtHeroName"
         tools:text="@tools:sample/lorem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,24 +9,24 @@ import app.isfaaghyth.uicomponent.component.EventBusFactory
 import app.isfaaghyth.uicomponent.component.UIComponent
 import app.isfaaghyth.uicomponent.dispatchers.DispatcherProvider
 import app.isfaaghyth.uicomponent.state.ScreenStateEvent
-import app.isfaaghyth.uicomponent.view.uimodel.PersonUIModel
+import app.isfaaghyth.uicomponent.view.uimodel.CharacterUIModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class PersonComponent(
+class CharListComponent(
     container: ViewGroup,
     private val bus: EventBusFactory,
     coroutineScope: CoroutineScope,
     dispatcher: DispatcherProvider
-): UIComponent<PersonInteractionEvent>, CoroutineScope by coroutineScope, PersonUIView.Listener {
+): UIComponent<CharInteractionEvent>, CoroutineScope by coroutineScope, CharUIView.Listener {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val uiView = initView(container)
 
-    private fun initView(container: ViewGroup): PersonUIView {
-        return PersonUIView(container, this)
+    private fun initView(container: ViewGroup): CharUIView {
+        return CharUIView(container, this)
     }
 
     init {
@@ -36,29 +36,29 @@ class PersonComponent(
                     when (it) {
                         ScreenStateEvent.Init -> uiView.hide()
                         is ScreenStateEvent.SetPersonInfo -> {
-                            setPersonInfo(it.persons)
+                            setPersonInfo(it.characters)
                         }
                     }
                 }
         }
     }
 
-    private fun setPersonInfo(persons: List<PersonUIModel>) {
-        uiView.setPersonList(persons)
+    private fun setPersonInfo(characters: List<CharacterUIModel>) {
+        uiView.bind(characters)
         uiView.show()
     }
 
-    override fun onPersonInfoClicked(person: PersonUIModel) {
+    override fun onPersonInfoClicked(character: CharacterUIModel) {
         launch {
             bus.emit(
-                PersonInteractionEvent::class.java,
-                PersonInteractionEvent.PersonInfoClicked(person)
+                CharInteractionEvent::class.java,
+                CharInteractionEvent.CharInfoClicked(character)
             )
         }
     }
 
-    override fun interactionEvents(): Flow<PersonInteractionEvent> {
-        return bus.getSafeManagedFlow(PersonInteractionEvent::class.java)
+    override fun interactionEvents(): Flow<CharInteractionEvent> {
+        return bus.getSafeManagedFlow(CharInteractionEvent::class.java)
     }
 
     override fun containerId(): Int {
@@ -76,9 +76,9 @@ class PersonComponent(
             coroutineScope: CoroutineScope,
             lifecycleOwner: LifecycleOwner,
             dispatcher: DispatcherProvider,
-            onAction: (event: PersonInteractionEvent) -> Unit
-        ): UIComponent<PersonInteractionEvent> {
-            val pinnedComponent = PersonComponent(
+            onAction: (event: CharInteractionEvent) -> Unit
+        ): UIComponent<CharInteractionEvent> {
+            val pinnedComponent = CharListComponent(
                 container,
                 EventBusFactory.get(lifecycleOwner),
                 coroutineScope,
