@@ -1,7 +1,7 @@
 <h1 align="center">Floppy</h1></br>
 
 <p align="center">
-🧩 Handling and maintain your a huge view component easily
+🧩 Handling and maintain your a UI view component easily
 </p>
 </br>
 <p align="center">
