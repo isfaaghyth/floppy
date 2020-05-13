@@ -28,6 +28,7 @@ let's take look an example of playstore app:
 - Coroutines
 - Android Lifecycle
 - Viewmodel
+- [EventBusFactory](https://github.com/isfaaghyth/floppy/blob/master/app/src/main/java/app/isfaaghyth/uicomponent/component/EventBusFactory.kt) (required, event broadcaster)
 
 ### Benefits
 - Reusable UI component in any containers
