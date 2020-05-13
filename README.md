@@ -29,6 +29,12 @@ let's take look an example of playstore app:
 - Android Lifecycle
 - Viewmodel
 
+### Benefits
+- Reusable UI component in any containers
+- Preventing a boilerplate code
+- Centralize behaviour and state management
+- Maintain a huge view component easily
+
 ### Getting Started
 let's breakdown the example of playstore app detail above.
 
