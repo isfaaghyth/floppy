@@ -62,7 +62,7 @@ class DetailComponent(
             lifecycleOwner: LifecycleOwner,
             dispatcher: DispatcherProvider
         ): UIComponent<Unit> {
-            val pinnedComponent = DetailComponent(
+            val detailComponent = DetailComponent(
                 container,
                 EventBusFactory.get(lifecycleOwner),
                 coroutineScope,
@@ -70,8 +70,7 @@ class DetailComponent(
             ).also(lifecycleOwner.lifecycle::addObserver)
 
             coroutineScope.launch {
-                pinnedComponent.interactionEvents()
-                    .collect {}
+                detailComponent.interactionEvents()
             }
 
             return pinnedComponent
