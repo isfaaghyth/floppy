@@ -191,7 +191,7 @@ class AppDetailFragment: Fragment(), CoroutineScope {
             EventBusFactory.get(viewLifecycleOwner)
                 .emit(
                     ScreenStateEvent::class.java,
-                    ScreenStateEvent.SetApplicationInfo(characters)
+                    ScreenStateEvent.SetApplicationInfo(info)
                 )
         }
     }
