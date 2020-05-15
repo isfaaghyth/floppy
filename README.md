@@ -18,7 +18,7 @@ Floppy has several component you should have, such as:
 | --------------- |:-----------:|:--------:|
 | UIView          | define your resource widget and binding the data |yes|
 | UIComponent     | handling the lifecycle and UI state of UIView    |yes|
-| InteractionEvent| callback listener to handling behaviour of view  |no |
+| InteractionEvent| state interaction event to handling behaviour of view  |no |
 | StateEvent      | your central data state for all of UIComponent   |yes|
 
 let's take look an example of playstore app:
@@ -81,7 +81,7 @@ class ApplicationInfoUIView(
     }
 } 
 ```
-after that, create an UIComponent for ApplicationInfo
+after that, create an UIComponent for an ApplicationInfo
 ```kt
 class ApplicationInfoComponent(
     container: ViewGroup,
@@ -199,7 +199,7 @@ class AppDetailFragment: Fragment(), CoroutineScope {
     fun initApplicationInfoComponent(
         container: ViewGroup
     ): UIComponent<Unit> {
-        val pinnedComponent = DetailComponent(
+        val detailComponent = DetailComponent(
             container,
             EventBusFactory.get(viweLifecycleOwner),
             coroutineScope,
@@ -207,7 +207,7 @@ class AppDetailFragment: Fragment(), CoroutineScope {
         ).also(lifecycleOwner.lifecycle::addObserver)
 
         coroutineScope.launch {
-            pinnedComponent.interactionEvents()
+            detailComponent.interactionEvents()
         }
 
         return pinnedComponent
