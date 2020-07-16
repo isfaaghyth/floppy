@@ -31,7 +31,7 @@ let's take look an example of playstore app:
 - [EventBusFactory](https://github.com/isfaaghyth/floppy/blob/master/app/src/main/java/app/isfaaghyth/uicomponent/component/EventBusFactory.kt) (required, event broadcaster)
 
 ### Benefits
-- Reusable UI component in any containers
+- Reusable view component in any ViewGroup (containers)
 - Preventing a boilerplate code
 - Centralize behaviour and state management
 - Maintain a huge view component easily
