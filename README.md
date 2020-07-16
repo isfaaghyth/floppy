@@ -223,7 +223,7 @@ class AppDetailFragment: Fragment(), CoroutineScope {
 and finally, you can see your ApplicationInfoCard on your AppDetailFragment! 🎉
 
 ### It is useful? ❤️
-Support it by joining [stargazers](https://github.com/isfaaghyth/floppy/stargazers) for this repository. ⭐
+Support it by joining [stargazers](https://github.com/isfaaghyth/floppy/stargazers) for this repository ⭐
 
 ### License
 ```
